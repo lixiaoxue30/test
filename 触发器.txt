@@ -1,0 +1,81 @@
+
+--第一个触发器
+delimiter ##
+create trigger trigger1
+after insert on selectcourse for each row
+begin
+SET SQL_SAFE_UPDATES = 0;
+update course as t0 ,   (select course.course_id,t1.num from course  left outer join
+(select course_id,count(course_id) as num from selectcourse  group by course_id )as t1
+on course.course_id=t1.course_id) as t2 set t0.number=t2.num where t0.course_id= t2.course_id;
+SET SQL_SAFE_UPDATES = 1;
+end
+##
+
+--第二个触发器
+delimiter ##
+create trigger trigger2
+after delete on selectcourse for each row
+begin
+SET SQL_SAFE_UPDATES = 0;
+update course as t0 ,   (select course.course_id,t1.num from course  left outer join
+(select course_id,count(course_id) as num from selectcourse  group by course_id )as t1
+on course.course_id=t1.course_id) as t2 set t0.number=t2.num where t0.course_id= t2.course_id;
+SET SQL_SAFE_UPDATES = 1;
+end
+##
+
+--第三个触发器
+delimiter ##
+create trigger trigger3
+after update on selectcourse for each row
+begin
+SET SQL_SAFE_UPDATES = 0;
+update course as t0 ,   (select course.course_id,t1.num from course  left outer join
+(select course_id,count(course_id) as num from selectcourse  group by course_id )as t1
+on course.course_id=t1.course_id) as t2 set t0.number=t2.num where t0.course_id= t2.course_id;
+SET SQL_SAFE_UPDATES = 1;
+end
+##
+
+--第四个触发器
+delimiter ##
+create trigger trigger4
+after insert on Student for each row
+begin
+SET SQL_SAFE_UPDATES = 0;
+update class as t0 ,   (select class.class,class.grade,t1.num from class  left outer join
+(select stu_class,stu_grade,count(*) as num from student  group by stu_class,stu_grade )as t1
+on class.class=t1.stu_class and class.grade=t1.stu_grade) as t2 set t0.number=t2.num 
+where t0.class=t2.class and t0.grade=t2.grade;
+SET SQL_SAFE_UPDATES = 1;
+end
+##
+
+--第五个触发器
+delimiter ##
+create trigger trigger5
+after delete on Student for each row
+begin
+SET SQL_SAFE_UPDATES = 0;
+update class as t0 ,   (select class.class,class.grade,t1.num from class  left outer join
+(select stu_class,stu_grade,count(*) as num from student  group by stu_class,stu_grade )as t1
+on class.class=t1.stu_class and class.grade=t1.stu_grade) as t2 set t0.number=t2.num 
+where t0.class=t2.class and t0.grade=t2.grade;
+SET SQL_SAFE_UPDATES = 1;
+end
+##
+
+--第六个触发器
+delimiter ##
+create trigger trigger6
+after update on Student for each row
+begin
+SET SQL_SAFE_UPDATES = 0;
+update class as t0 ,   (select class.class,class.grade,t1.num from class  left outer join
+(select stu_class,stu_grade,count(*) as num from student  group by stu_class,stu_grade )as t1
+on class.class=t1.stu_class and class.grade=t1.stu_grade) as t2 set t0.number=t2.num 
+where t0.class=t2.class and t0.grade=t2.grade;
+SET SQL_SAFE_UPDATES = 1;
+end
+##
